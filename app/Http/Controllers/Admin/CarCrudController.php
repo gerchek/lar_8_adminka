@@ -30,14 +30,6 @@ class CarCrudController extends CrudController
         CRUD::setRoute(config('backpack.base.route_prefix') . '/car');
         CRUD::setEntityNameStrings('car', 'cars');
 
-        // if (!backpack_user()->can('articles.create') {
-        //     CRUD::denyAccess('create');
-        // }
-        // if (!backpack_user()->can('articles.update') {
-        //     CRUD::denyAccess('update');
-        // }
-
-        // $user->assignRole('writer');
     }
 
     /**

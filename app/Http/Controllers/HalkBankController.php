@@ -30,11 +30,8 @@ class HalkBankController extends Controller
     {
         $ss = $req->value;
         $car = Car::where('category_id',$ss)->get();
-        
         // dd($car);
-
         return response()->json(['success'=>$car]);
-
         // return Response::json($car);
     }
 
