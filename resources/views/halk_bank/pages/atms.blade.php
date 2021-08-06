@@ -57,15 +57,15 @@
                             <div class="atm_select">
                                 <label>Выбор региона</label>
                                 <div class="select_box">
-                                    <select onchange="myfunc()" id="select_id" name="aa"> <!-- onchange="this.form.submit()" -->
+                                    <select  id="select_id" name="aa"> <!-- onchange="this.form.submit()" -->
                                     @foreach ($Category as $data)
-                                        <option class="product_sorting_btn" value="{{ $data->id }}">{{ $data->title }}</option>
+                                        <option class="product_sorting_btn" id="val" value="{{ $data->id }}">{{ $data->title }}</option>
                                         <!-- <option value="1">Mary</option>
                                         <option value="2">Ahal</option>
                                         <option value="3">Lebap</option>
                                         <option value="4">Dasoguz</option> -->
                                     @endforeach
-                                    </select>
+                                    </select> 
                                 </div>
                             </div>
                         </form>
@@ -78,40 +78,17 @@
                                         <th>Адрес</th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody id="todo-list">
 
                                
 
-                                @if(isset($maglumat))
-                                @foreach ($maglumat as $mag)
-                                <tr>
-                                        <td>{{ $mag->id }}</td>
-                                        <td>{{ $mag->name }}</td>
-                                        <td>ул. 1916 (Б. Аннаннова), д. 129</td>
-                                    </tr>
-                                    @endforeach
-                                    @endif
                                 
-                                <tr>
+                                <tr class="tr">
                                         <td>1</td>
                                         <td>"Банковская школа" ЦБ Туркменистана</td>
                                         <td>ул. 1916 (Б. Аннаннова), д. 129</td>
                                     </tr>
                                 
-
-
-
-
-
-
-
-
-
-
-
-                                
-
-
 
 
 
@@ -129,17 +106,63 @@
     <!-- Info Block end ======================================= -->
 
     <script>
-    // var divarrays = $(".select-items div");
-    // divarrays.each(function (){
-    //     $(this).attr("onclick", "myfunc()");
-    // });
+    
 
-    function myfunc() {
-       d = document.getElementById("select_id").value;
-       console.log(d);
-   }
+//     function myfunc() {
+//        d = document.getElementById("select_id").value;
+//        console.log(d);
+//    }
 
+
+     jQuery(document).ready(function($){
+       
+
+    $('#select_id').change(
+    function() {
         
+        var value = this.value;
+        console.log(value);
+        $.ajax({
+            type: "POST",
+            url: "{{ route('atms_atms') }}",
+            data: {
+                value: value
+                     
+                  },
+            headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function (response){
+                    var len =response.success.length;
+                    console.log(response.success.length);
+                    if (len) {
+                        $( ".tr" ).remove();
+                        for (var x = 0; x < len; x++) {
+
+                var content = '<tr class="tr">'+"<td>"+response.success[x].id+"</td>" +" "+"<td>"+response.success[x].name+"</td>"+"</tr>";
+                console.log("<tr>"+"<td>"+response.success[x].id+"</td>" +" "+"<td>"+response.success[x].name+"</td>"+"</tr>");
+                $('#todo-list').append(content);
+                     }
+                    }
+                    
+            
+                }
+                
+        }).done(function() {
+             alert( "second success" );
+             })
+            .fail(function() {
+             alert( "error" );
+             })
+            .always(function() {
+              alert( "finished" );
+             });
+    }
+    );
+    
+
+    });
+
     </script> 
 
 

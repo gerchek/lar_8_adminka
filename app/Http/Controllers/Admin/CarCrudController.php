@@ -37,7 +37,7 @@ class CarCrudController extends CrudController
         //     CRUD::denyAccess('update');
         // }
 
-        $user->assignRole('writer');
+        // $user->assignRole('writer');
     }
 
     /**

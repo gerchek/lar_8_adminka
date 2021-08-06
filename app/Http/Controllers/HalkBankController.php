@@ -23,19 +23,20 @@ class HalkBankController extends Controller
          return view('halk_bank.pages.atms',compact('Category'));
     }
 
+
+
+
     function atms_atms(Request $req)
     {
-        $Category = Category::all();
-    
+        $ss = $req->value;
+        $car = Car::where('category_id',$ss)->get();
+        
+        // dd($car);
 
-        // ==========================================
-       // $Category = Category::all();
-       $aa=$req->aa;
-       $maglumat = Car::where('category_id',$aa)->get();
-   // dd($maglumat);
-       //  return view('halk_bank.pages.atms',compact('Category'));
-//$f='salam';
+        return response()->json(['success'=>$car]);
 
-                    return view('halk_bank.pages.atms',compact('Category','maglumat'));
+        // return Response::json($car);
     }
+
+    
 }
